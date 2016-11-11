@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">נוהג בתיאוריה</string>
+    <string name="navigation_drawer_open">פתח מגירת ניווט</string>
+    <string name="navigation_drawer_close">סגור מגירת ניווט</string>
+    <string name="menu_settings">הגדרות</string>
+    <string name="title_activity_credits">תודות</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="pref_header_general">כללי</string>
+    <string name="default_for_main_activity_title">ברירת מחדל למסך הראשי</string>
+    <string-array name="default_for_main_activity">
+        <item>@string/title_activity_training</item>
+        <item>@string/title_activity_simulation</item>
+        <item>@string/choice_last_selected</item>
+    </string-array>
+    <string name="pref_header_data_sync">עדכון</string>
+    <string name="pref_title_sync_frequency">תדירות עדכון</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>בכל הפעלה</item>
+        <item>בהפעלה ראשונה ובכל שעה</item>
+        <item>בהפעלה ראשונה ופעם ביום</item>
+        <item>עדכון ידני בלבד</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>0</item>
+        <item>1</item>
+        <item>24</item>
+        <item>-1</item>
+    </string-array>
+    <string name="title_activity_training">אימון</string>
+    <string name="title_activity_simulation">סימולציה</string>
+    <string name="label_about">אודות</string>
+    <string name="title_activity_about">אודות נוהג בתיאוריה</string>
+    <string name="menu_update">עדכון</string>
+    <string name="nav_header_subtitle">פשוט ללמוד תיאוריה</string>
+    <string name="full_sim">סימולציה מלאה</string>
+    <string name="customized_sim">סימולציה מותאמת אישית</string>
+    <string name="category">קטגוריה</string>
+    <string name="real_question_distribution">חלוקת שאלות אמיתית</string>
+    <string name="real_question_distribution_explanation">מספר השאלות מכל קטגוריה תואם את מבחן התיאוריה האמיתי.</string>
+    <string name="time_limit">מגבלת זמן</string>
+    <string name="time_limit_distribution">לאחר 30:00 דקות הסימולציה מסתיימת גם אם לא כל השאלות נענו - כמו במבחן האמיתי</string>
+    <string name="marking_correct_answer">סימון תשובות נכונות</string>
+    <string name="marking_right_answer_explanation">כשתשובה נבחרת ניתן לראות אם היא נכונה או לא - שלא כמו במבחן האמיתי.</string>
+    <string name="start_simulation">התחל סימולציה</string>
+    <string name="label_all">הכל</string>
+    <string name="title_activity_question">שאלה</string>
+    <string name="image_content_description">תמונה או איור המתאר סיטואציה שקשורה לשאלה</string>
+    <string name="logo_label">לוגו</string>
+    <string name="cont_desc_splash">לוגו האפליקציה</string>
+    <string name="logo_image">תמונת לוגו</string>
+    <string name="title_pref_lisence_class">סוג רישיון</string>
+    <string name="label_send">שלח</string>
+    <string name="label_no_more_question">אין עוד שאלות</string>
+    <string name="label_test_passed">עברת את המבחן בהצלחה</string>
+    <string name="label_test_failed">נכשלת במבחן, מומלץ להאתמן עוד לפני המבחן האמיתי</string>
+    <string name="label_error_count">%d תשובות לא נכונות</string>
+    <string name="label_end">סוף</string>
+    <string name="time_limit_passed">לא עמדת בזמן</string>
+    <string name="time_limit_not_passed">עמדת בזמן</string>
+    <string name="label_goto_simulation">עבור לסימולציה</string>
+    <string name="label_or">או</string>
+    <string name="back_to_training">חזור לאימון</string>
+    <string name="choice_last_selected">הישאר תמיד בסוג הפעילות האחרון שעסקתי בו</string>
+    <string name="notif_message_ongoing_sync">נוהג בתיאוריה מתעדכנת כעת</string>
+    <string name="notif_title_sync">עדכון נוהג בתיאוריה</string>
+    <string name="notif_text_sync_success">העדכון הסתיים בהצלחה</string>
+    <string name="dialog_title_need_update">נדרש עדכון</string>
+    <string name="dialog_message_need_update">נוהג בתיאוריה לא מצאה את מאגר השאלות.\nיש לוודא חיבור פעיל לרשת ולעדכן מחדש.</string>
+    <string name="notif_text_sync_fail">העדכון נכשל</string>
+    <string name="menu_stats">סטטיסטיקה</string>
+    <string name="content_description_welcome_slide">שקופית פתיח</string>
+
+</resources>

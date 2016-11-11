@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvMain"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        style="?android:textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/tvErrorCount"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/tvTimeLimit"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

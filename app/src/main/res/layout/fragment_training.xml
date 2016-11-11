@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.TrainingFragment">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/tvTitle"
+        android:background="@drawable/border"
+        android:padding="@dimen/title_padding"
+        android:text="@string/title_activity_training"
+        style="?android:textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <GridView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/tvTitle"
+        android:id="@+id/gridView"
+        android:horizontalSpacing="@dimen/activity_horizontal_margin"
+        android:verticalSpacing="@dimen/activity_vertical_margin"
+        android:numColumns="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>

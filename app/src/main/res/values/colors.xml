@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#006891</color>
+    <color name="colorPrimaryDark">#003b53</color>
+    <color name="colorAccent">#cc0045</color>
+    <color name="colorCorrect">#50f540</color>
+    <color name="colorWrong">#ff6456</color>
+    <color name="colorCorrectDark">#014000</color>
+    <color name="colorGotoSim">#009f43</color>
+    <color name="colorBackground">#fafafa</color>
+</resources>

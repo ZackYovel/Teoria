@@ -1,0 +1,124 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.ezekiel.teoria.fragment.SimulationFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tvTitle"
+            android:background="@drawable/border"
+            android:padding="@dimen/title_padding"
+            android:text="@string/title_activity_simulation"
+            style="?android:textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioGroup
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/tvTitle"
+            android:id="@+id/rgSimType"
+            android:checkedButton="@+id/rbFullSim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbFullSim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/full_sim" />
+
+            <RadioButton
+                android:id="@+id/rbCustomSim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/customized_sim" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvCategoryLabel"
+            style="?android:textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rgSimType"
+            android:enabled="false"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/category" />
+
+        <Spinner
+            android:id="@+id/spCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCategoryLabel" />
+
+        <CheckBox
+            android:enabled="false"
+            android:id="@+id/cbTimerOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spCategory"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:checked="true"
+            android:text="@string/time_limit" />
+
+        <TextView
+            android:enabled="false"
+            android:id="@+id/tvTimerOnLabel"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cbTimerOn"
+            android:text="@string/time_limit_distribution" />
+
+        <CheckBox
+            android:enabled="false"
+            android:id="@+id/cbMarkRightAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTimerOnLabel"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/marking_correct_answer" />
+
+        <TextView
+            android:enabled="false"
+            android:id="@+id/tvMarkRightAnswerLabel"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cbMarkRightAnswer"
+            android:text="@string/marking_right_answer_explanation" />
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@id/tvMarkRightAnswerLabel"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnStartSim"
+                android:text="@string/start_simulation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:text="@string/label_or"
+                style="?android:textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnBackToTraining"
+                android:text="@string/back_to_training"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

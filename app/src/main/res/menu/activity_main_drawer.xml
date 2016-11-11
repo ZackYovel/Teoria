@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_training"
+            android:icon="@drawable/ic_stat_training"
+            android:title="@string/title_activity_training" />
+        <item
+            android:id="@+id/nav_simulation"
+            android:icon="@drawable/ic_stat_test"
+            android:title="@string/title_activity_simulation" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_stat_stats"
+            android:title="@string/menu_stats" />
+        <item
+            android:id="@+id/nav_update"
+            android:icon="@drawable/ic_stat_update"
+            android:title="@string/menu_update" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_stat_settings"
+            android:title="@string/menu_settings" />
+    </group>
+
+    <item android:title="@string/label_about">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_stat_app_icon"
+                android:title="@string/title_activity_about" />
+            <item
+                android:id="@+id/nav_credits"
+                android:icon="@drawable/ic_stat_bouquet"
+                android:title="@string/title_activity_credits" />
+        </menu>
+    </item>
+
+</menu>
