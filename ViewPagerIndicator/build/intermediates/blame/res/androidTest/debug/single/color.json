@@ -4,6 +4,14 @@
         "source": "/home/ezekiel/AndroidStudioProjects/Teoria/ViewPagerIndicator/build/intermediates/bundles/debug/res/color/vpi__light_theme.xml"
     },
     {
+        "merged": "/Users/zack-yovel/StudioProjects/Teoria/ViewPagerIndicator/build/intermediates/res/merged/androidTest/debug/color/vpi__light_theme.xml",
+        "source": "/Users/zack-yovel/StudioProjects/Teoria/ViewPagerIndicator/build/intermediates/bundles/debug/res/color/vpi__light_theme.xml"
+    },
+    {
+        "merged": "/Users/zack-yovel/StudioProjects/Teoria/ViewPagerIndicator/build/intermediates/res/merged/androidTest/debug/color/vpi__dark_theme.xml",
+        "source": "/Users/zack-yovel/StudioProjects/Teoria/ViewPagerIndicator/build/intermediates/bundles/debug/res/color/vpi__dark_theme.xml"
+    },
+    {
         "merged": "/home/ezekiel/AndroidStudioProjects/Teoria/ViewPagerIndicator/build/intermediates/res/merged/androidTest/debug/color/vpi__dark_theme.xml",
         "source": "/home/ezekiel/AndroidStudioProjects/Teoria/ViewPagerIndicator/build/intermediates/bundles/debug/res/color/vpi__dark_theme.xml"
     }
