@@ -80,7 +80,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                         downloadFinished(false);
                     }
                 });
-        VolleySingleton.getInstance(this).addToRequestQueue(request);
+//        VolleySingleton.getInstance(this).addToRequestQueue(request);
+        ((TeoriaApplication)getApplication()).getVolleySingleton().addToRequestQueue(request);
     }
 
     protected void downloadFinished(boolean success) {

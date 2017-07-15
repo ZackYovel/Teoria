@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.apps.ezekiel.teoria.BaseActivity;
 import com.apps.ezekiel.teoria.R;
+import com.apps.ezekiel.teoria.TeoriaApplication;
 import com.apps.ezekiel.teoria.entity.QuestionItem;
 import com.apps.ezekiel.teoria.networking.VolleySingleton;
 import com.apps.ezekiel.teoria.util.Functions;
@@ -125,9 +128,12 @@ public class QuestionFragment extends Fragment {
 
         if (questionItem.getImage() != null) {
             networkImageView.setVisibility(View.VISIBLE);
-            ImageLoader imageLoader = VolleySingleton
-                    .getInstance(getContext().getApplicationContext())
-                    .getImageLoader();
+//            ImageLoader imageLoader = VolleySingleton
+//                    .getInstance(getContext().getApplicationContext())
+//                    .getImageLoader();
+            ImageLoader imageLoader =
+                    ((TeoriaApplication)getActivity().getApplication())
+                            .getVolleySingleton().getImageLoader();
             networkImageView.setImageUrl(questionItem.getImage(), imageLoader);
         } else {
             networkImageView.setVisibility(View.GONE);

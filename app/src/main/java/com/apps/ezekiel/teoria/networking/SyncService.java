@@ -6,12 +6,14 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.apps.ezekiel.teoria.BaseActivity;
 import com.apps.ezekiel.teoria.R;
+import com.apps.ezekiel.teoria.TeoriaApplication;
 import com.apps.ezekiel.teoria.database.DataAccess;
 import com.apps.ezekiel.teoria.entity.QuestionItem;
 import com.apps.ezekiel.teoria.util.PersistTimes;
@@ -49,7 +51,9 @@ public class SyncService extends IntentService {
                 BaseActivity.SYNC_NOTIFICATION_ID,
                 R.drawable.ic_stat_sync
         );
-        VolleySingleton.getInstance(context).getRequestQueue().add(new TeoriaRequest(
+//        VolleySingleton.getInstance(context).addToRequestQueue(new TeoriaRequest(
+        ((TeoriaApplication)getApplication())
+                .getVolleySingleton().addToRequestQueue(new TeoriaRequest(
                 context, Request.Method.GET, BaseActivity.UPDATE_URL,
                 new Response.Listener<List<QuestionItem>>() {
                     @Override
