@@ -20,7 +20,6 @@ import android.widget.ImageView;
 
 import com.apps.ezekiel.teoria.fragment.WelcomeSlideFragment;
 import com.apps.ezekiel.teoria.networking.SyncAlarmReceiver;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +29,7 @@ public class SplashActivity extends BaseActivity {
     private static final long TIMER_DELAY = 1500;
     private static final String PREF_APP_FIRST_RUN = "SplashActivity.PREF_APP_FIRST_RUN";
     private static final int MESSAGE_WELCOME_SLIDES = 1;
+    public static final String TAG = "SplashActivity";
 
     private SyncAlarmReceiver syncAlarmReceiver = new SyncAlarmReceiver();
 
@@ -37,17 +37,16 @@ public class SplashActivity extends BaseActivity {
     private boolean downloadDone;
     private boolean nextRan;
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MESSAGE_WELCOME_SLIDES) {
-                initWelcomeSlides();
-            }
-        }
-    };
+//    private Handler handler = new Handler(Looper.getMainLooper()) {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == MESSAGE_WELCOME_SLIDES) {
+//                initWelcomeSlides();
+//            }
+//        }
+//    };
     private ImageView imageView;
     private ViewPager viewPager;
-    private CirclePageIndicator pageIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,51 +89,50 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 timerUp = true;
-                if (downloadDone || lastPersist != null) {
+                if (downloadDone /* || lastPersist != null */) {
                     Log.d(TAG, "timer up");
                     next();
-                } else {
-                    handler.obtainMessage(MESSAGE_WELCOME_SLIDES).sendToTarget();
+//                } else {
+//                    handler.obtainMessage(MESSAGE_WELCOME_SLIDES).sendToTarget();
                 }
             }
         }, TIMER_DELAY);
     }
 
-    private void initWelcomeSlides() {
-        imageView = (ImageView) findViewById(R.id.imageView);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        pageIndicator = (CirclePageIndicator) findViewById(R.id.titles);
-        imageView.setVisibility(View.GONE);
-        viewPager.setVisibility(View.VISIBLE);
-        pageIndicator.setVisibility(View.VISIBLE);
-        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-            private final int[] screens = {
-                    R.drawable.screen1,
-                    R.drawable.screen2,
-                    R.drawable.screen3,
-                    R.drawable.screen4,
-                    R.drawable.screen5
-            };
-
-            @Override
-            public Fragment getItem(int position) {
-                return WelcomeSlideFragment.newInstance(screens[position]);
-            }
-
-            @Override
-            public int getCount() {
-                return screens.length;
-            }
-        });
-        pageIndicator.setViewPager(viewPager);
-    }
+//    private void initWelcomeSlides() {
+//        imageView = (ImageView) findViewById(R.id.imageView);
+//        viewPager = (ViewPager) findViewById(R.id.viewPager);
+//        imageView.setVisibility(View.GONE);
+//        viewPager.setVisibility(View.VISIBLE);
+//        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+//            private final int[] screens = {
+//                    R.drawable.screen1,
+//                    R.drawable.screen2,
+//                    R.drawable.screen3,
+//                    R.drawable.screen4,
+//                    R.drawable.screen5
+//            };
+//
+//            @Override
+//            public Fragment getItem(int position) {
+//                return WelcomeSlideFragment.newInstance(screens[position]);
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return screens.length;
+//            }
+//        });
+//    }
 
     @Override
     protected void downloadFinished(boolean success) {
         downloadDone = true;
         if (timerUp) {
             Log.d(TAG, "download done, success = " + success);
-            next();
+//            if (lastPersist != null) {
+                next();
+//            }
         }
         super.downloadFinished(success);
     }
@@ -151,7 +149,6 @@ public class SplashActivity extends BaseActivity {
     public void onBackPressed() {
         // Don't close the activity
         viewPager.setVisibility(View.GONE);
-        pageIndicator.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
     }
 
