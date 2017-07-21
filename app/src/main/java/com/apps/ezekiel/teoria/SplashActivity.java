@@ -37,7 +37,7 @@ public class SplashActivity extends BaseActivity {
     private boolean downloadDone;
     private boolean nextRan;
 
-//    private Handler handler = new Handler(Looper.getMainLooper()) {
+    //    private Handler handler = new Handler(Looper.getMainLooper()) {
 //        @Override
 //        public void handleMessage(Message msg) {
 //            if (msg.what == MESSAGE_WELCOME_SLIDES) {
@@ -45,8 +45,8 @@ public class SplashActivity extends BaseActivity {
 //            }
 //        }
 //    };
-    private ImageView imageView;
-    private ViewPager viewPager;
+//    private ImageView imageView;
+//    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 timerUp = true;
-                if (downloadDone /* || lastPersist != null */) {
+                if (downloadDone || lastPersist != null) {
                     Log.d(TAG, "timer up");
                     next();
 //                } else {
@@ -131,7 +131,7 @@ public class SplashActivity extends BaseActivity {
         if (timerUp) {
             Log.d(TAG, "download done, success = " + success);
 //            if (lastPersist != null) {
-                next();
+            next();
 //            }
         }
         super.downloadFinished(success);
@@ -148,8 +148,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         // Don't close the activity
-        viewPager.setVisibility(View.GONE);
-        imageView.setVisibility(View.VISIBLE);
+//        viewPager.setVisibility(View.GONE);
+//        imageView.setVisibility(View.VISIBLE);
     }
 
     public void setSyncAlarm(int syncFrequencyPreference) {

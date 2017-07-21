@@ -37,7 +37,6 @@ public class VolleySingleton {
     }
 
     public static synchronized VolleySingleton getInstance(Context context) {
-        Log.d("VolleySingletonUsage", "entered synchronized method");
         if (mInstance == null) {
             mInstance = new VolleySingleton(context);
         }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.apps.ezekiel.teoria.fragment.SimulationFragment;
 import com.apps.ezekiel.teoria.fragment.TrainingFragment;
@@ -133,6 +135,8 @@ public class MainActivity extends BaseActivity
             startLearningTask(getString(R.string.title_activity_training));
         } else if (id == R.id.nav_update) {
             loadData();
+        } else if (id == R.id.nav_stats){
+            Toast.makeText(this, "stats", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_credits) {
             startInfoActivity(R.string.title_activity_credits);
         } else if (id == R.id.nav_about) {

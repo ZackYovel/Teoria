@@ -15,9 +15,9 @@ import java.util.List;
 public class DataAccess {
 
     private static final String TAG = "DataAccess";
-    public static final String ORDER_BY_DISPLAY_COUNT = QuestionTable._DISPLAY_COUNT + " ASC, " +
+    private static final String ORDER_BY_DISPLAY_COUNT = QuestionTable._DISPLAY_COUNT + " ASC, " +
             QuestionTable._ANSWER_ATTEMPTS + " DESC, RANDOM()";
-    public static final String ORDER_BY_RANDOM = "RANDOM()";
+    private static final String ORDER_BY_RANDOM = "RANDOM()";
     private final Helper helper;
 
     public DataAccess(Context context) {
@@ -81,8 +81,8 @@ public class DataAccess {
                 quantity > 0 ? String.valueOf(quantity) : null);
     }
 
-    public List<QuestionItem> getAllQuestionsForClassUpTo(long cls, String orderBy,
-                                                          String quantity) {
+    private List<QuestionItem> getAllQuestionsForClassUpTo(long cls, String orderBy,
+                                                           String quantity) {
         return getQuestionsFromCategoryForClassUpTo(cls, null, orderBy, quantity);
     }
 
@@ -90,41 +90,59 @@ public class DataAccess {
         return getQuestionsFromCategoryForClassUpTo(cls, category, ORDER_BY_DISPLAY_COUNT, null);
     }
 
-    public List<QuestionItem> getQuestionsFromCategoryForClassUpTo(long cls, String category,
-                                                                   int quantity) {
+    public List<QuestionItem> getQuestionsFromCategoryForClassUpTo(
+            long cls, String category, int quantity
+    ) {
         return getQuestionsFromCategoryForClassUpTo(cls, category, ORDER_BY_RANDOM,
                 quantity > 0 ? String.valueOf(quantity) : null);
     }
 
-    private List<QuestionItem> getQuestionsFromCategoryForClassUpTo(long cls, String category,
-                                                                    String orderBy,
-                                                                    String quantity) {
+    private List<QuestionItem> getQuestionsFromCategoryForClassUpTo(
+            long cls, String category, String orderBy, String quantity
+    ) {
         ArrayList<QuestionItem> result;
         SQLiteDatabase readableDatabase = helper.getReadableDatabase();
 
         String where = null;
-        String[] whereArgs = null;
+        String[] args = null;
         if (category != null && cls > -1) {
             where = QuestionTable._CATEGORY + "=? AND " + QuestionTable._CLASSES + " & ? <> 0";
-            whereArgs = new String[]{category, String.valueOf(cls)};
+            args = new String[]{category, String.valueOf(cls)};
         } else if (category != null) {
             where = QuestionTable._CATEGORY + "=?";
-            whereArgs = new String[]{category};
+            args = new String[]{category};
         } else if (cls > -1) {
             where = QuestionTable._CLASSES + " & ? <> 0";
-            whereArgs = new String[]{String.valueOf(cls)};
+            args = new String[]{String.valueOf(cls)};
         }
 
         Cursor cursor = readableDatabase.query(QuestionTable.TABLE_NAME, null, where,
-                whereArgs, null, null, orderBy, quantity);
+                args, null, null, orderBy, quantity);
+
+//        String sql = "SELECT * FROM " + QuestionTable.TABLE_NAME +
+//                " WHERE " + where +
+//                " AND " + QuestionTable._DISPLAY_COUNT + "=(SELECT MIN(" +
+//                QuestionTable._DISPLAY_COUNT + ") FROM " + QuestionTable.TABLE_NAME + ")" +
+//                " ORDER BY " + orderBy;
+//
+//        if (quantity != null) {
+//            sql += " LIMIT " + quantity;
+//        }
+//
+//        Cursor cursor = readableDatabase.rawQuery(sql, args);
+
         result = new ArrayList<>(cursor.getCount());
         cursor.moveToFirst();
+
         while (!cursor.isAfterLast()) {
             result.add(QuestionTable.questionItemFromCursor(cursor));
             cursor.moveToNext();
         }
+
         cursor.close();
-        Log.i(TAG, "getQuestionsFromCategoryForClass produced questions of category " + category);
+
+        Log.i(TAG, "getQuestionsFromCategoryForClass produced " + result.size() + " questions of category " + category);
+
         return result;
     }
 
