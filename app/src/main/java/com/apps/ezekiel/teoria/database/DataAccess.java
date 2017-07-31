@@ -18,6 +18,7 @@ public class DataAccess {
     private static final String ORDER_BY_DISPLAY_COUNT = QuestionTable._DISPLAY_COUNT + " ASC, " +
             QuestionTable._ANSWER_ATTEMPTS + " DESC, RANDOM()";
     private static final String ORDER_BY_RANDOM = "RANDOM()";
+    public static final int CLS_DISABLED = -1;
     private final Helper helper;
 
     public DataAccess(Context context) {
@@ -68,11 +69,26 @@ public class DataAccess {
         return result;
     }
 
-    public List<QuestionItem> getAllQuestions() {
-        return getAllQuestionsForClass(-1);
+//    public List<QuestionItem> getAllQuestions() {
+//        return getAllQuestionsForClass(CLS_DISABLED);
+//    }
+
+    private List<QuestionItem> removeViewedMoreThanMin(List<QuestionItem> items) {
+        ArrayList<QuestionItem> result = new ArrayList<>(items.size());
+        int minViewed = items.get(0).getDisplayedCount();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getDisplayedCount() == minViewed) {
+                result.add(items.get(i));
+            }
+        }
+        return result;
     }
 
-    public List<QuestionItem> getAllQuestionsForClass(long cls) {
+    public List<QuestionItem> getNewQuestionsForClass(long cls) {
+        return removeViewedMoreThanMin(getAllQuestionsForClass(cls));
+    }
+
+    private List<QuestionItem> getAllQuestionsForClass(long cls) {
         return getAllQuestionsForClassUpTo(cls, ORDER_BY_DISPLAY_COUNT, null);
     }
 
@@ -86,7 +102,11 @@ public class DataAccess {
         return getQuestionsFromCategoryForClassUpTo(cls, null, orderBy, quantity);
     }
 
-    public List<QuestionItem> getQuestionsFromCategoryForClass(long cls, String category) {
+    public List<QuestionItem> getNewQuestionsFromCategoryForClass(long cls, String category) {
+        return removeViewedMoreThanMin(getQuestionsFromCategoryForClass(cls, category));
+    }
+
+    private List<QuestionItem> getQuestionsFromCategoryForClass(long cls, String category) {
         return getQuestionsFromCategoryForClassUpTo(cls, category, ORDER_BY_DISPLAY_COUNT, null);
     }
 
@@ -111,7 +131,7 @@ public class DataAccess {
         } else if (category != null) {
             where = QuestionTable._CATEGORY + "=?";
             args = new String[]{category};
-        } else if (cls > -1) {
+        } else if (cls > CLS_DISABLED) {
             where = QuestionTable._CLASSES + " & ? <> 0";
             args = new String[]{String.valueOf(cls)};
         }
@@ -146,15 +166,58 @@ public class DataAccess {
         return result;
     }
 
-    public void setCountersForQuestion(long questionId, int answerAttempts) {
+
+    public int getNumQuestionsForClass(long licenceClass) {
+        int result;
+
+        SQLiteDatabase readableDatabase = helper.getReadableDatabase();
+        Cursor cursor = readableDatabase.query(
+                QuestionTable.TABLE_NAME,
+                new String[]{"COUNT(" + QuestionTable._ID + ")"},
+                QuestionTable._CLASSES + " & ? <> 0",
+                new String[]{String.valueOf(licenceClass)},
+                null, null, null
+        );
+
+        cursor.moveToFirst();
+        result = cursor.getInt(0);
+
+        cursor.close();
+
+        return result;
+    }
+
+    public int getNumQuestionsFromCategoryForClass(long licenceClass, String trainingCategory) {
+        int result;
+
+        SQLiteDatabase readableDatabase = helper.getReadableDatabase();
+        Cursor cursor = readableDatabase.query(
+                QuestionTable.TABLE_NAME,
+                new String[]{"COUNT(" + QuestionTable._ID + ")"},
+                QuestionTable._CLASSES + " & ? <> 0 AND " + QuestionTable._CATEGORY + "=?",
+                new String[]{String.valueOf(licenceClass), trainingCategory},
+                null, null, null
+        );
+
+        cursor.moveToFirst();
+        result = cursor.getInt(0);
+
+        cursor.close();
+
+        return result;
+    }
+
+    public void setCountersForQuestion(long questionId, int answerAttempts, int displayCount) {
         SQLiteDatabase writableDatabase = helper.getWritableDatabase();
-        writableDatabase.execSQL(
-                "UPDATE " + QuestionTable.TABLE_NAME +
-                        " SET " + QuestionTable._DISPLAY_COUNT + "=" +
-                        QuestionTable._DISPLAY_COUNT + "+1, " +
-                        QuestionTable._ANSWER_ATTEMPTS + "=? WHERE " +
-                        QuestionTable._ID + "=?;",
-                new Object[]{answerAttempts, questionId});
+        ContentValues values = new ContentValues(1);
+        values.put(QuestionTable._ANSWER_ATTEMPTS, answerAttempts);
+        values.put(QuestionTable._DISPLAY_COUNT, displayCount);
+        String whereClause = QuestionTable._ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(questionId)};
+        int update = writableDatabase.update(
+                QuestionTable.TABLE_NAME, values, whereClause, whereArgs
+        );
+        writableDatabase.close();
     }
 
     public static void saveQuestions(Context context, List<QuestionItem> questions) {

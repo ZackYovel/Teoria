@@ -1,13 +1,17 @@
 package com.apps.ezekiel.teoria;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.util.LongSparseArray;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -75,6 +79,7 @@ public class QuestionActivity extends AppCompatActivity
     private static final long TEST_DURATION_MS = 2400000;  // test duration is 40 minutes
     private static final long COUNT_DOWN_INTERVAL = 1000;  // update each 1 second
     public static final int TEST_QUESTIONS = 30;
+    private static final String TAG = "QuestionActivity";
 
     private int activityMode;
     private String trainingCategory;
@@ -86,7 +91,7 @@ public class QuestionActivity extends AppCompatActivity
     private ViewPager viewPager;
     private TextView tvCountDownTimer;
     private DataAccess dataAccess;
-    private HashMap<Long, QuestionFragment.State> fragmentState;
+    private LongSparseArray<QuestionFragment.State> fragmentState;
     private String simulationCategory;
     private HashMap<Long, QuestionItem> wrongAnsweredQuestions;
     private boolean timeIsUp;
@@ -102,6 +107,7 @@ public class QuestionActivity extends AppCompatActivity
         viewPager.getAdapter().notifyDataSetChanged();
     }
 
+    @SuppressLint("UseSparseArrays")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +126,7 @@ public class QuestionActivity extends AppCompatActivity
                 .getString(SettingsActivity.LICENCE_CLASS,
                         SettingsActivity.DEFAULT_LICENCE_CLASS));
 
-        this.fragmentState = new HashMap<>();
+        this.fragmentState = new LongSparseArray<>();
         this.wrongAnsweredQuestions = new HashMap<>();
 
         this.viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -143,14 +149,17 @@ public class QuestionActivity extends AppCompatActivity
 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    tvCountDownTimer.setText(formatter.print(new Duration(millisUntilFinished)
-                            .toPeriod()));
+                    tvCountDownTimer.setText(
+                            formatter.print(new Duration(millisUntilFinished).toPeriod())
+                    );
                 }
 
                 @Override
                 public void onFinish() {
                     timeIsUp = true;
-                    tvCountDownTimer.setTextColor(getResources().getColor(R.color.colorWrong));
+                    tvCountDownTimer.setTextColor(ContextCompat.getColor(
+                            QuestionActivity.this, R.color.colorWrong
+                    ));
                 }
             }.start();
         }
@@ -162,26 +171,40 @@ public class QuestionActivity extends AppCompatActivity
         boolean allCategories = isAllCategories();
 
         List<QuestionItem> items = null;
+        int allQuestions = 0;
+
+
         if (allCategories && activityMode == ACTIVITY_MODE_TRAINING) {
-            items = dataAccess.getAllQuestionsForClass(licenceClass);
+            items = dataAccess.getNewQuestionsForClass(licenceClass);
+            allQuestions = dataAccess.getNumQuestionsForClass(licenceClass);
         } else if (allCategories && activityMode == ACTIVITY_MODE_SIMULATION) {
             items = dataAccess.getAllQuestionsForClassUpTo(licenceClass, TEST_QUESTIONS);
         } else if (!allCategories && activityMode == ACTIVITY_MODE_TRAINING) {
-            items = dataAccess.getQuestionsFromCategoryForClass(licenceClass, trainingCategory);
+            items = dataAccess.getNewQuestionsFromCategoryForClass(licenceClass, trainingCategory);
+            allQuestions = dataAccess.getNumQuestionsFromCategoryForClass(
+                    licenceClass, trainingCategory
+            );
         } else if (!allCategories && activityMode == ACTIVITY_MODE_SIMULATION) {
-            items = dataAccess.getQuestionsFromCategoryForClassUpTo(licenceClass,
-                    simulationCategory, TEST_QUESTIONS);
+            items = dataAccess.getQuestionsFromCategoryForClassUpTo(
+                    licenceClass, simulationCategory, TEST_QUESTIONS
+            );
+        } else {
+            Log.wtf(TAG, "no questions found in db!!!");
+            return;
         }
+
+        final int numAllQuestions = allQuestions;
+        final int numItemsViewed = allQuestions - items.size();
 
         viewPager.setAdapter(new QuestionPagerAdapter(items));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-                int size = viewPager.getAdapter().getCount() -
-                        (activityMode == ACTIVITY_MODE_SIMULATION ? 1 : 0);
+            public void onPageScrolled(
+                    int position, float positionOffset, int positionOffsetPixels
+            ) {
+                int size = numAllQuestions - (activityMode == ACTIVITY_MODE_SIMULATION ? 1 : 0);
                 if ((position + 1) <= size) {
-                    setTitle("שאלה " + (position + 1) + "/" + size);
+                    setTitle("שאלה " + (numItemsViewed + position + 1) + "/" + size);
                 } else {
                     setTitle(R.string.label_end);
                 }
@@ -200,12 +223,13 @@ public class QuestionActivity extends AppCompatActivity
 
     /**
      * Analise mode booleans and determine if all categories are chosen on not.
+     *
      * @return true if questions should be of all categories, false if not
      */
     private boolean isAllCategories() {
         return (activityMode == ACTIVITY_MODE_SIMULATION &&
                 (simulationMode == SIMULATION_MODE_FULL ||
-                        CATEGORY_ALL.equals(simulationCategory ))) ||
+                        CATEGORY_ALL.equals(simulationCategory))) ||
 
                 (activityMode == ACTIVITY_MODE_TRAINING &&
                         CATEGORY_ALL.equals(trainingCategory));
@@ -217,11 +241,11 @@ public class QuestionActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCorrectAnswer(long questionId, int numberOfAttempts) {
+    public void onCorrectAnswer(long questionId, int numberOfAttempts, int displayCount) {
         if (wrongAnsweredQuestions.containsKey(questionId)) {
             wrongAnsweredQuestions.remove(questionId);
         }
-        dataAccess.setCountersForQuestion(questionId, numberOfAttempts);
+        dataAccess.setCountersForQuestion(questionId, numberOfAttempts, displayCount);
     }
 
     @Override

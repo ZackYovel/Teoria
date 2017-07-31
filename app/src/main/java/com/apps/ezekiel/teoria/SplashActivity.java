@@ -24,6 +24,9 @@ import com.apps.ezekiel.teoria.networking.SyncAlarmReceiver;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Displays a splash screen for a short period of time on app startup.
+ */
 public class SplashActivity extends BaseActivity {
 
     private static final long TIMER_DELAY = 1500;
@@ -137,6 +140,9 @@ public class SplashActivity extends BaseActivity {
         super.downloadFinished(success);
     }
 
+    /**
+     * Starts the next activity.
+     */
     private void next() {
         if (!nextRan) {
             startActivity(new Intent(this, MainActivity.class));

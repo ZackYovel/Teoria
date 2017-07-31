@@ -196,7 +196,9 @@ public class QuestionFragment extends Fragment {
         mListener.onStateUpdated(questionItem.getId(), new State(clicked, options));
         answerAttempts++;
         if (isCorrectAnswer(i)) {
-            mListener.onCorrectAnswer(questionItem.getId(), answerAttempts);
+            mListener.onCorrectAnswer(
+                    questionItem.getId(), answerAttempts, questionItem.getDisplayedCount() + 1
+            );
         } else {
             mListener.onWrongAnswer(questionItem, i);
         }
@@ -298,7 +300,7 @@ public class QuestionFragment extends Fragment {
     public interface QuestionFragmentListener {
         void onStateUpdated(long questionId, State state);
 
-        void onCorrectAnswer(long questionId, int numberOfAttempts);
+        void onCorrectAnswer(long questionId, int numberOfAttempts, int i);
 
         void onWrongAnswer(QuestionItem questionItem, int optionRealIndex);
     }

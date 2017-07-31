@@ -20,6 +20,11 @@ import android.widget.Toast;
 import com.apps.ezekiel.teoria.fragment.SimulationFragment;
 import com.apps.ezekiel.teoria.fragment.TrainingFragment;
 
+/**
+ * Displays the main activity - shows one of two fragments: by default, a
+ * {@link com.apps.ezekiel.teoria.fragment.TrainingFragment}, switchable via menu action to
+ * {@link com.apps.ezekiel.teoria.fragment.SimulationFragment}
+ */
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TrainingFragment.Listener, SimulationFragment.Listener {

@@ -21,6 +21,12 @@ import com.apps.ezekiel.teoria.database.DataAccess;
 
 import java.util.List;
 
+/**
+ * Displays a training menu.
+ *
+ * Training means covering all available question in a chosen category, or in all categories.
+ * The menu allows choosing a category or all categories.
+ */
 public class TrainingFragment extends Fragment {
 
     private static final String PREF_IS_NOT_FIRST_USE =
