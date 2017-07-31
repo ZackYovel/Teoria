@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.apps.ezekiel.teoria.SplashActivity">
+    tools:context="com.gmail.ezekiyovel.teoria.SplashActivity">
 
     <ImageView
         android:id="@+id/imageView"

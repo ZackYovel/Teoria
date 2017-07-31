@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apps.ezekiel.teoria.fragment.SimulationFragment">
+    tools:context="com.gmail.ezekiyovel.teoria.fragment.SimulationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

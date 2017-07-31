@@ -6,4 +6,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Screen"
-    tools:context="com.apps.ezekiel.teoria.QuestionActivity" />
+    tools:context="com.gmail.ezekiyovel.teoria.QuestionActivity" />
