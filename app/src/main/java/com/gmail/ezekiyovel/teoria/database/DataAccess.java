@@ -19,6 +19,7 @@ public class DataAccess {
     private static final String ORDER_BY_RANDOM = "RANDOM()";
     public static final int CLS_DISABLED = -1;
     private final Helper helper;
+    private int statsData;
 
     public DataAccess(Context context) {
         this.helper = Helper.getInstance(context);
@@ -206,6 +207,28 @@ public class DataAccess {
         return result;
     }
 
+    public int[] getStatsData() {
+        int[] results = new int[5];
+//        select count(display_count) from Question where display_count = 0;
+//        select count(id) from Question group by answer_attempts;
+        SQLiteDatabase readableDatabase = helper.getReadableDatabase();
+        Cursor cursor = readableDatabase.query(
+                QuestionTable.TABLE_NAME,
+                new String[]{"COUNT(" + QuestionTable._ID + ")"},
+                null, null,
+                QuestionTable._ANSWER_ATTEMPTS,
+                null, null
+        );
+        cursor.moveToFirst();
+        int cursorCount = cursor.getCount();
+        for (int i = 0; i < cursorCount; i++) {
+            results[i] = cursor.getInt(0);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return results;
+    }
+
     public void setCountersForQuestion(long questionId, int answerAttempts, int displayCount) {
         SQLiteDatabase writableDatabase = helper.getWritableDatabase();
         ContentValues values = new ContentValues(1);
@@ -223,4 +246,5 @@ public class DataAccess {
         DataAccess instance = new DataAccess(context);
         instance.save(questions);
     }
+
 }

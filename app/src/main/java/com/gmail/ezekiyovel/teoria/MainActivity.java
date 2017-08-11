@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_update) {
             loadData();
         } else if (id == R.id.nav_stats){
-            Toast.makeText(this, "stats", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, StatsActivity.class));
         } else if (id == R.id.nav_credits) {
             startInfoActivity(R.string.title_activity_credits);
         } else if (id == R.id.nav_about) {

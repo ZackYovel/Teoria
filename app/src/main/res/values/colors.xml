@@ -8,4 +8,10 @@
     <color name="colorCorrectDark">#014000</color>
     <color name="colorGotoSim">#009f43</color>
     <color name="colorBackground">#fafafa</color>
+    <color name="colorNotDisplayed">#ff0000</color>
+    <color name="colorAnswered1Attempts">#00ff00</color>
+    <color name="colorAnswered2Attempts">#33cc00</color>
+    <color name="colorAnswered3Attempts">#669900</color>
+    <color name="colorAnswered4Attempts">#996600</color>
+    <color name="colorStatsBackground">#88aa88</color>
 </resources>

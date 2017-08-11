@@ -7,22 +7,22 @@ import android.provider.BaseColumns;
 import com.gmail.ezekiyovel.teoria.entity.QuestionItem;
 
 
-public class QuestionTable implements BaseColumns {
-    public static final String TABLE_NAME = "Question";
-    public static final String _TITLE = "title";
-    public static final String _OPTION1 = "option1";
-    public static final String _OPTION2 = "option2";
-    public static final String _OPTION3 = "option3";
-    public static final String _OPTION4 = "option4";
-    public static final String _CORRECT_ANSWER = "correct_answer";
-    public static final String _CATEGORY = "category";
-    public static final String _PUB_DATE = "pub_date";
-    public static final String _IMAGE = "image";
-    public static final String _ANSWER_ATTEMPTS = "answer_attempts";
-    public static final String _DISPLAY_COUNT = "display_count";
-    public static final String _CLASSES = "classes";
+class QuestionTable implements BaseColumns {
+    static final String TABLE_NAME = "Question";
+    static final String _TITLE = "title";
+    static final String _OPTION1 = "option1";
+    static final String _OPTION2 = "option2";
+    static final String _OPTION3 = "option3";
+    static final String _OPTION4 = "option4";
+    static final String _CORRECT_ANSWER = "correct_answer";
+    static final String _CATEGORY = "category";
+    static final String _PUB_DATE = "pub_date";
+    static final String _IMAGE = "image";
+    static final String _ANSWER_ATTEMPTS = "answer_attempts";
+    static final String _DISPLAY_COUNT = "display_count";
+    static final String _CLASSES = "classes";
 
-    public static final String CREATE = "CREATE TABLE " + TABLE_NAME + "(" +
+    static final String CREATE = "CREATE TABLE " + TABLE_NAME + "(" +
             _ID + " INTEGER PRIMARY KEY, " +
             _TITLE + " TEXT UNIQUE, " +
             _OPTION1 + " TEXT, " +
@@ -38,23 +38,23 @@ public class QuestionTable implements BaseColumns {
             _CLASSES + " INTEGER" +
             ");";
 
-    public static final String DELETE = "DELETE TABLE " + TABLE_NAME + " IF EXISTS;";
+    static final String DELETE = "DELETE TABLE " + TABLE_NAME + " IF EXISTS;";
 
-    public static final int INDEX_OF_ID = 0;
-    public static final int INDEX_OF_TITLE = 1;
-    public static final int INDEX_OF_OPTION_1 = 2;
-    public static final int INDEX_OF_OPTION_2 = 3;
-    public static final int INDEX_OF_OPTION_3 = 4;
-    public static final int INDEX_OF_OPTION_4 = 5;
-    public static final int INDEX_OF_CORRECT_ANSWER_INDEX = 6;
-    public static final int INDEX_OF_CATEGORY = 7;
-    public static final int INDEX_OF_PUB_DATE = 8;
-    public static final int INDEX_OF_IMAGE = 9;
-    public static final int INDEX_OF_ANSWER_ATTEMPTS = 10;
-    public static final int INDEX_OF_DISPLAYED_COUNT = 11;
-    public static final int INDEX_OF_CLASSES = 12;
+    private static final int INDEX_OF_ID = 0;
+    private static final int INDEX_OF_TITLE = 1;
+    private static final int INDEX_OF_OPTION_1 = 2;
+    private static final int INDEX_OF_OPTION_2 = 3;
+    private static final int INDEX_OF_OPTION_3 = 4;
+    private static final int INDEX_OF_OPTION_4 = 5;
+    private static final int INDEX_OF_CORRECT_ANSWER_INDEX = 6;
+    private static final int INDEX_OF_CATEGORY = 7;
+    private static final int INDEX_OF_PUB_DATE = 8;
+    private static final int INDEX_OF_IMAGE = 9;
+    private static final int INDEX_OF_ANSWER_ATTEMPTS = 10;
+    private static final int INDEX_OF_DISPLAYED_COUNT = 11;
+    private static final int INDEX_OF_CLASSES = 12;
 
-    public static ContentValues contentValues(QuestionItem item) {
+    static ContentValues contentValues(QuestionItem item) {
         ContentValues result = new ContentValues();
         result.put(_TITLE, item.getTitle());
         result.put(_OPTION1, item.getOptions()[0]);
@@ -73,7 +73,7 @@ public class QuestionTable implements BaseColumns {
         return result;
     }
 
-    public static QuestionItem questionItemFromCursor(Cursor cursor) {
+    static QuestionItem questionItemFromCursor(Cursor cursor) {
         QuestionItem result = new QuestionItem();
         result.setId(cursor.getInt(INDEX_OF_ID));
         result.setTitle(cursor.getString(INDEX_OF_TITLE));
