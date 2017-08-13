@@ -29,13 +29,13 @@ public class StatsActivity extends AppCompatActivity {
         int[] statsData = new DataAccess(this).getStatsData();
 
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(statsData[0], "לא הוצגו"));
-        entries.add(new PieEntry(statsData[1], "נענו בניסיון ראשון"));
-        entries.add(new PieEntry(statsData[2], "נענו בניסיון שני"));
-        entries.add(new PieEntry(statsData[3], "נענו בניסיון שלישי"));
-        entries.add(new PieEntry(statsData[4], "נענו בניסיון רביעי"));
+        entries.add(new PieEntry(statsData[0], getString(R.string.label_not_displayed)));
+        entries.add(new PieEntry(statsData[1], getString(R.string.label_answered_first_attempt)));
+        entries.add(new PieEntry(statsData[2], getString(R.string.label_answered_second_attempt)));
+        entries.add(new PieEntry(statsData[3], getString(R.string.label_answered_third_attempt)));
+        entries.add(new PieEntry(statsData[4], getString(R.string.label_answered_fourth_attempt)));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Label");
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(new int[]{
                 R.color.colorNotDisplayed,
                 R.color.colorAnswered1Attempts,
@@ -43,13 +43,13 @@ public class StatsActivity extends AppCompatActivity {
                 R.color.colorAnswered3Attempts,
                 R.color.colorAnswered4Attempts
         }, this);
-        dataSet.setLabel("מקרא:");
+        dataSet.setLabel(getString(R.string.label_legend));
 
         PieData pieData = new PieData(dataSet);
 
         chart.setData(pieData);
         Description desc = new Description();
-        desc.setText("סטטיסטיקת מענה על פי מספר הניסיונות.");
+        desc.setText(getString(R.string.label_stats_description));
         chart.setDescription(desc);
         chart.setDrawEntryLabels(false);
         chart.setHoleColor(ContextCompat.getColor(this, R.color.colorStatsBackground));

@@ -69,5 +69,12 @@
     <string name="notif_text_sync_fail">העדכון נכשל</string>
     <string name="menu_stats">סטטיסטיקה</string>
     <string name="content_description_welcome_slide">שקופית פתיח</string>
+    <string name="label_not_displayed">לא הוצגו</string>
+    <string name="label_answered_first_attempt">נענו בניסיון ראשון</string>
+    <string name="label_answered_second_attempt">נענו בניסיון שני</string>
+    <string name="label_answered_third_attempt">נענו בניסיון שלישי</string>
+    <string name="label_answered_fourth_attempt">נענו בניסיון רביעי</string>
+    <string name="label_legend">מקרא:</string>
+    <string name="label_stats_description">סטטיסטיקת מענה על פי מספר הניסיונות.</string>
 
 </resources>
