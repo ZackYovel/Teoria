@@ -1,18 +1,15 @@
 package com.gmail.ezekiyovel.teoria;
 
-import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.gmail.ezekiyovel.teoria.R;
 import com.gmail.ezekiyovel.teoria.database.DataAccess;
+import com.gmail.ezekiyovel.teoria.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,8 @@ public class StatsActivity extends AppCompatActivity {
 
         PieChart chart = (PieChart) findViewById(R.id.chart);
 
-        int[] statsData = new DataAccess(this).getStatsData();
+        long classFromPreferences = Preferences.getClassFromPreferences(this);
+        int[] statsData = new DataAccess(this).getStatsData(classFromPreferences);
 
         List<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(statsData[0], getString(R.string.label_not_displayed)));
@@ -44,6 +42,7 @@ public class StatsActivity extends AppCompatActivity {
                 R.color.colorAnswered4Attempts
         }, this);
         dataSet.setLabel(getString(R.string.label_legend));
+        dataSet.setValueTextSize(16);
 
         PieData pieData = new PieData(dataSet);
 
@@ -52,7 +51,7 @@ public class StatsActivity extends AppCompatActivity {
         desc.setText(getString(R.string.label_stats_description));
         chart.setDescription(desc);
         chart.setDrawEntryLabels(false);
-        chart.setHoleColor(ContextCompat.getColor(this, R.color.colorStatsBackground));
+//        chart.setHoleColor(ContextCompat.getColor(this, R.color.colorStatsBackground));
         chart.invalidate();
     }
 }

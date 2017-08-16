@@ -17,9 +17,11 @@ public class DataAccess {
     private static final String ORDER_BY_DISPLAY_COUNT = QuestionTable._DISPLAY_COUNT + " ASC, " +
             QuestionTable._ANSWER_ATTEMPTS + " DESC, RANDOM()";
     private static final String ORDER_BY_RANDOM = "RANDOM()";
-    public static final int CLS_DISABLED = -1;
+    private static final int CLS_DISABLED = -1;
+    private static final String WHERE_BY_CATEGORY_AND_CLASS = QuestionTable._CATEGORY + "=? AND " + QuestionTable._CLASSES + " & ? <> 0";
+    private static final String WHERE_BY_CATEGORY = QuestionTable._CATEGORY + "=?";
+    private static final String WHERE_BY_CLASS = QuestionTable._CLASSES + " & ? <> 0";
     private final Helper helper;
-    private int statsData;
 
     public DataAccess(Context context) {
         this.helper = Helper.getInstance(context);
@@ -126,13 +128,13 @@ public class DataAccess {
         String where = null;
         String[] args = null;
         if (category != null && cls > -1) {
-            where = QuestionTable._CATEGORY + "=? AND " + QuestionTable._CLASSES + " & ? <> 0";
+            where = WHERE_BY_CATEGORY_AND_CLASS;
             args = new String[]{category, String.valueOf(cls)};
         } else if (category != null) {
-            where = QuestionTable._CATEGORY + "=?";
+            where = WHERE_BY_CATEGORY;
             args = new String[]{category};
         } else if (cls > CLS_DISABLED) {
-            where = QuestionTable._CLASSES + " & ? <> 0";
+            where = WHERE_BY_CLASS;
             args = new String[]{String.valueOf(cls)};
         }
 
@@ -207,20 +209,22 @@ public class DataAccess {
         return result;
     }
 
-    public int[] getStatsData() {
-        int[] results = new int[5];
+    public int[] getStatsData(long cls) {
 //        select count(display_count) from Question where display_count = 0;
 //        select count(id) from Question group by answer_attempts;
         SQLiteDatabase readableDatabase = helper.getReadableDatabase();
+        String groupByAnswerAttempts = QuestionTable._ANSWER_ATTEMPTS;
+        String[] columns = {"COUNT(" + QuestionTable._ID + ")"};
+        String[] whereArgs = {String.valueOf(cls)};
         Cursor cursor = readableDatabase.query(
-                QuestionTable.TABLE_NAME,
-                new String[]{"COUNT(" + QuestionTable._ID + ")"},
-                null, null,
-                QuestionTable._ANSWER_ATTEMPTS,
+                QuestionTable.TABLE_NAME, columns,
+                WHERE_BY_CLASS, whereArgs,
+                groupByAnswerAttempts,
                 null, null
         );
         cursor.moveToFirst();
         int cursorCount = cursor.getCount();
+        int[] results = new int[5];
         for (int i = 0; i < cursorCount; i++) {
             results[i] = cursor.getInt(0);
             cursor.moveToNext();
@@ -246,5 +250,4 @@ public class DataAccess {
         DataAccess instance = new DataAccess(context);
         instance.save(questions);
     }
-
 }

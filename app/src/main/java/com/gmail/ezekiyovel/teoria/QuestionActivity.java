@@ -20,6 +20,7 @@ import com.gmail.ezekiyovel.teoria.entity.QuestionItem;
 import com.gmail.ezekiyovel.teoria.fragment.FinishSimulationFragment;
 import com.gmail.ezekiyovel.teoria.fragment.QuestionFragment;
 import com.gmail.ezekiyovel.teoria.fragment.SimulationResultsFragment;
+import com.gmail.ezekiyovel.teoria.util.Preferences;
 
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
@@ -120,11 +121,7 @@ public class QuestionActivity extends AppCompatActivity
         this.simulationCategory = extras.getString(EXTRA_SIMULATION_CATEGORY);
         this.useTimeLimit = extras.getBoolean(EXTRA_SIMULATION_TIME_LIMIT);
         this.useMarkRightAnswer = extras.getBoolean(EXTRA_SIMULATION_MARK_RIGHT_ANSWERS);
-
-        SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        this.licenceClass = QuestionItem.binClassForStrClass(defaultPreferences
-                .getString(SettingsActivity.LICENCE_CLASS,
-                        SettingsActivity.DEFAULT_LICENCE_CLASS));
+        this.licenceClass = Preferences.getClassFromPreferences(this);
 
         this.fragmentState = new LongSparseArray<>();
         this.wrongAnsweredQuestions = new HashMap<>();

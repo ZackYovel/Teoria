@@ -129,7 +129,7 @@ public class QuestionFragment extends Fragment {
 //                    .getInstance(getContext().getApplicationContext())
 //                    .getImageLoader();
             ImageLoader imageLoader =
-                    ((TeoriaApplication)getActivity().getApplication())
+                    ((TeoriaApplication) getActivity().getApplication())
                             .getVolleySingleton().getImageLoader();
             networkImageView.setImageUrl(questionItem.getImage(), imageLoader);
         } else {
@@ -186,20 +186,22 @@ public class QuestionFragment extends Fragment {
     }
 
     private void selectOption(View v, int i) {
-        if (!markAsRightOrWrong) {
-            clicked = new boolean[4];
+        if (!clicked[i]) {
+            if (!markAsRightOrWrong) {
+                clicked = new boolean[4];
+            }
+            clicked[i] = true;
+            answerAttempts++;
+            mListener.onStateUpdated(questionItem.getId(), new State(clicked, options));
+            if (isCorrectAnswer(i)) {
+                mListener.onCorrectAnswer(
+                        questionItem.getId(), answerAttempts, questionItem.getDisplayedCount() + 1
+                );
+            } else {
+                mListener.onWrongAnswer(questionItem, i);
+            }
+            markAnswer(v, i);
         }
-        clicked[i] = true;
-        mListener.onStateUpdated(questionItem.getId(), new State(clicked, options));
-        answerAttempts++;
-        if (isCorrectAnswer(i)) {
-            mListener.onCorrectAnswer(
-                    questionItem.getId(), answerAttempts, questionItem.getDisplayedCount() + 1
-            );
-        } else {
-            mListener.onWrongAnswer(questionItem, i);
-        }
-        markAnswer(v, i);
     }
 
     @Override
@@ -245,17 +247,17 @@ public class QuestionFragment extends Fragment {
         int background = isCorrectAnswer(position) ?
                 R.drawable.background_green :
                 R.drawable.background_red;
-        int icon = isCorrectAnswer(position) ?
-                R.drawable.ic_check :
-                R.drawable.ic_uncheck;
+//        int icon = isCorrectAnswer(position) ?
+//                R.drawable.ic_check :
+//                R.drawable.ic_uncheck;
         selectedView.setBackgroundResource(background);
-        ((TextView)selectedView).setCompoundDrawablesWithIntrinsicBounds(
-                ContextCompat.getDrawable(getContext(), icon), null, null, null
-        );
+//        ((TextView)selectedView).setCompoundDrawablesWithIntrinsicBounds(
+//                ContextCompat.getDrawable(getContext(), icon), null, null, null
+//        );
     }
 
-    public static class Option implements Parcelable {
-        public Option(int realIndex, String text) {
+    private static class Option implements Parcelable {
+        Option(int realIndex, String text) {
             this.realIndex = realIndex;
             this.text = text;
         }
@@ -306,7 +308,7 @@ public class QuestionFragment extends Fragment {
         boolean[] clicked = new boolean[4];
         Option[] options = new Option[4];
 
-        public State(boolean[] clicked, Option[] options) {
+        State(boolean[] clicked, Option[] options) {
             this.clicked = clicked;
             this.options = options;
         }
