@@ -93,10 +93,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private class PersistTask extends AsyncTask<Void, Void, Void> {
 
-        public final String TAG = "PersistTask";
+        final String TAG = "PersistTask";
         private List<QuestionItem> items;
 
-        public PersistTask(List<QuestionItem> items) {
+        PersistTask(List<QuestionItem> items) {
             this.items = items;
         }
 

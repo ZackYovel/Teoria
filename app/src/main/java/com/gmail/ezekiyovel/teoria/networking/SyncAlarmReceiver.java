@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 
 public class SyncAlarmReceiver extends BroadcastReceiver {
 
+    public static final String SYNC_ALARM_INTENT = "com.gmail.ezekiyovel.SYNC_ALARM_INTENT";
     private AlarmManager alarmManager;
     private PendingIntent alarmIntent;
 
@@ -23,17 +24,24 @@ public class SyncAlarmReceiver extends BroadcastReceiver {
         context.startService(service);
     }
 
-    public void setAlarm(Context context, long interval){
-        alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, SyncAlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+    public void setAlarm(Context context, long interval) {
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(SYNC_ALARM_INTENT);
+        alarmIntent =
+                PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME,
-                interval,
-                interval,
-                alarmIntent
-        );
+        boolean alarmUp =
+                PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE) !=
+                        null;
+
+        if (!alarmUp) {
+            alarmManager.setInexactRepeating(
+                    AlarmManager.ELAPSED_REALTIME,
+                    interval,
+                    interval,
+                    alarmIntent
+            );
+        }
 
         ComponentName receiver = new ComponentName(context, SyncAlarmReceiver.class);
         PackageManager pacMan = context.getPackageManager();
@@ -46,7 +54,7 @@ public class SyncAlarmReceiver extends BroadcastReceiver {
     }
 
     public void cancelAlarm(Context context) {
-        if (alarmManager!=null){
+        if (alarmManager != null) {
             alarmManager.cancel(alarmIntent);
         }
 

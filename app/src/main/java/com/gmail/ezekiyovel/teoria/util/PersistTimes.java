@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class PersistTimes implements Iterable<String> {
-    public static final String FILE_NAME = "PersistTimes";
+    private static final String FILE_NAME = "PersistTimes";
 
     private ArrayList<String> persistTimes;
     private Context context;

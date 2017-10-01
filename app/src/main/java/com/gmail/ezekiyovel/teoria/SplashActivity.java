@@ -54,19 +54,18 @@ public class SplashActivity extends BaseActivity {
             supportActionBar.hide();
         }
 
+        // Check if app runs for the first time
         SharedPreferences defaultSharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
-
         boolean appFirstRun = defaultSharedPreferences
                 .getBoolean(PREF_APP_FIRST_RUN, true);
-
         if (appFirstRun) {
             defaultSharedPreferences.edit().putBoolean(PREF_APP_FIRST_RUN, false).apply();
         }
 
+        // Check if data sync is needed and do it
         int syncFrequency = Integer.parseInt(defaultSharedPreferences
                 .getString(PREF_SYNC_FREQUENCY, String.valueOf(SYNC_FREQUENCY_DEFAULT)));
-
         if (syncFrequency == SYNC_FREQUENCY_ON_APP_STARTS || appFirstRun) {
             loadData();
         }
