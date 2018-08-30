@@ -76,5 +76,6 @@
     <string name="label_answered_fourth_attempt">נענו בניסיון רביעי</string>
     <string name="label_legend">מקרא:</string>
     <string name="label_stats_description">סטטיסטיקת מענה על פי מספר הניסיונות.</string>
+    <string name="update_url">כתובת עדכון</string>
 
 </resources>

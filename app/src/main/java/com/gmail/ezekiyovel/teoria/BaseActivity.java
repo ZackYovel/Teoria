@@ -2,8 +2,10 @@ package com.gmail.ezekiyovel.teoria;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
@@ -26,7 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String STORAGE_FILE_NAME = "TeoriaStorageFile";
 
-    public static final String UPDATE_URL = "http://media.mot.gov.il/XML/TheoryExamHE.xml";
+    public static final String UPDATE_URL = "https://data.gov.il/dataset/618dd157-8df3-43e7" +
+            "-bf9a-00974b4919e9/resource/b5bb714b-b2c8-42ca-bc90-9c235863b1dd/download/" +
+            "theoryexamhe_data.xml";
     public static final int SYNC_NOTIFICATION_ID = 1;
 
     public static final String PREF_SYNC_FREQUENCY = "sync_frequency";
@@ -35,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final int SYNC_FREQUENCY_DAILY = 24;
     public static final int SYNC_FREQUENCY_MANUAL = -1;
     public static final int SYNC_FREQUENCY_DEFAULT = SYNC_FREQUENCY_DAILY;
+    public static final String PREFERENCE_UPDATE_URL = "update_url";
 
     protected Long lastPersist;
     private PersistTask persistTask;
@@ -60,7 +65,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 R.drawable.ic_stat_sync
         );
 
-        TeoriaRequest request = new TeoriaRequest(this, Request.Method.GET, UPDATE_URL,
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String update_url = preferences.getString(PREFERENCE_UPDATE_URL, UPDATE_URL);
+
+        TeoriaRequest request = new TeoriaRequest(this, Request.Method.GET, update_url,
                 new Response.Listener<List<QuestionItem>>() {
                     @Override
                     public void onResponse(List<QuestionItem> response) {

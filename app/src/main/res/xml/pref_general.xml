@@ -21,4 +21,9 @@
         android:positiveButtonText="@null"
         android:title="@string/title_pref_lisence_class" />
 
+    <EditTextPreference
+        android:defaultValue="https://data.gov.il/dataset/618dd157-8df3-43e7-bf9a-00974b4919e9/resource/b5bb714b-b2c8-42ca-bc90-9c235863b1dd/download/theoryexamhe_data.xml"
+        android:key="update_url"
+        android:title="@string/update_url"/>
+
 </PreferenceScreen>
